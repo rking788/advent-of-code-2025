@@ -81,6 +81,8 @@ pub fn build(b: *std.Build) void {
                 // .{ .name = "day1", .module = mod },
             },
         }),
+
+
     });
 
     // This declares intent for the executable to be installed into the
@@ -153,4 +155,10 @@ pub fn build(b: *std.Build) void {
     //
     // Lastly, the Zig build system is relatively simple and self-contained,
     // and reading its source code will allow you to master it.
+    const test_artifact = b.addInstallArtifact(
+           exe_tests,
+           .{ .dest_dir = .{ .override = .{ .custom = "tests" } } },
+       );
+       const install_test_step = b.step("install_test", "Create test binaries for debugging");
+       install_test_step.dependOn(&test_artifact.step);
 }
